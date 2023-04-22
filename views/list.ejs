@@ -11,16 +11,43 @@
       <form action="/delete" method="post">
         <div class="item">
           <input type="checkbox" name="checkbox" value="<%= item._id%>" onchange="this.form.submit()" title="delete">
-          <p><%= item.name %></p>
+          <p>
+            <%= item.name %>
+          </p>
         </div>
         <input type="hidden" name="listName" value="<%= listTitle %>"></input>
       </form>
       <% }) %>
 
-        <form class="item" action="/" method="post">
-          <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+        <form class="item" action="/" method="post" onsubmit="return handleSubmit()">
+          <input id="inp" type="text" name="newItem" placeholder="New Item" autocomplete="off">
           <button type="submit" name="list" value="<%= listTitle %>">+</button>
         </form>
   </div>
-
   <%- include("footer") -%>
+
+    <script>
+      const inpItem = document.getElementById("inp");
+
+      function handleSubmit() {
+        console.log("submiteed");
+        if (inpItem.value == "") {
+          alert("Please wite something!");
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      document.getElementById("year").innerHTML = new Date().getFullYear();
+
+      let editableText = document.getElementById("editable-text");
+
+      if (localStorage.getItem('saveName')) {
+        editableText.textContent = localStorage.getItem('saveName');
+      }
+
+      editableText.addEventListener('input', function () {
+        localStorage.setItem('saveName', this.textContent);
+      })
+    </script>
